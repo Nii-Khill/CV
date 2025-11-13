@@ -16,33 +16,33 @@ const App = () => {
   const [responsibilities, setResponsibilities] = useState("")
   const [dateFromToEnd, setDateFromToEnd] = useState('')
 
-  const[isEditing, setIsEditing] = useState(true);
-  const[submitted, setSubmitted] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
 
 
   function handleSubmitForm(e) {
     e.preventDefault();
-      
+
     if (
-    !name.trim() ||
-    !email.trim() ||
-    !phone.trim() ||
-    !schoolName.trim() ||
-    !studyTitle.trim() ||
-    !dateOfStudy.trim() ||
-    !companyName.trim() ||
-    !positionTitle.trim() ||
-    !responsibilities.trim() ||
-    !dateFromToEnd.trim()
-  ) {
-    alert("Please fill out all fields before submitting!");
-    return; 
-  }
+      !name.trim() ||
+      !email.trim() ||
+      !phone.trim() ||
+      !schoolName.trim() ||
+      !studyTitle.trim() ||
+      !dateOfStudy.trim() ||
+      !companyName.trim() ||
+      !positionTitle.trim() ||
+      !responsibilities.trim() ||
+      !dateFromToEnd.trim()
+    ) {
+      alert("Please fill out all fields before submitting!");
+      return;
+    }
     setSubmitted(true)
     setIsEditing(false)
   }
 
-  const handleEdit=()=>{
+  const handleEdit = () => {
     setIsEditing(true);
     setSubmitted(false)
 
@@ -74,45 +74,52 @@ const App = () => {
 
 
 
-{isEditing ? (
-       <form onSubmit={handleSubmitForm}>
+      {isEditing ? (
+        <form onSubmit={handleSubmitForm}>
 
-        <button type='submit'>Submit</button>
-      </form>
-):(
-  <div>
-    <button onClick={handleEdit}>Edit</button>
-  </div>
-)}
+          <button type='submit'>Submit</button>
+        </form>
+      ) : (
+        <div>
+          <button onClick={handleEdit}>Edit</button>
+        </div>
+      )}
 
-{submitted && (
-       <div>
-        <h2>Submitted CV</h2>
+      {submitted && (
+        <div className="cv-container">
+          <h2>Submitted CV</h2>
 
-        <h3>General Information</h3>
-        <p><strong>Name:</strong> {name}</p>
-        <p><strong>Email:</strong> {email}</p>
-        <p><strong>Phone:</strong> {phone}</p>
+          <h3>General Information</h3>
+          <p><strong>Name:</strong> {name}</p>
+          <p><strong>Email:</strong> {email}</p>
+          <p><strong>Phone:</strong> {phone}</p>
 
-        <h3>Education</h3>
-        <p><strong>School Name:</strong> {schoolName}</p>
-        <p><strong>Study Title:</strong> {studyTitle}</p>
-        <p><strong>Date of Study:</strong> {dateOfStudy}</p>
+          <h3>Education</h3>
+          <p><strong>School Name:</strong> {schoolName}</p>
+          <p><strong>Study Title:</strong> {studyTitle}</p>
+          <p><strong>Date of Study:</strong> {dateOfStudy}</p>
 
-        <h3>Practical Experience</h3>
-        <p><strong>Company Name:</strong> {companyName}</p>
-        <p><strong>Position Title:</strong> {positionTitle}</p>
-        <p><strong>Responsibilities:</strong> {responsibilities}</p>
-        <p><strong>Duration:</strong> {dateFromToEnd}</p>
+          <h3>Practical Experience</h3>
+          <p><strong>Company Name:</strong> {companyName}</p>
+          <p><strong>Position Title:</strong> {positionTitle}</p>
+          <p><strong>Responsibilities:</strong> {responsibilities}</p>
+          <p><>Duration:</> {dateFromToEnd}</p>
 
-        
+          <div class="contact-info">
+            <span>📧 {email}</span> |
+            <span>📞 {phone}</span> |
+            <span>🌐 linkedin.com/in/{name}</span>
+          </div>
+
+
+        </div>
 
 
 
-      </div>
 
-      
-)}
+
+
+      )}
 
 
     </>
