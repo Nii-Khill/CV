@@ -1,27 +1,51 @@
 body {
   font-family: 'Helvetica Neue', 'Segoe UI', 'Roboto', sans-serif;
-  background-color: #f5f5f5;
+  background-color: #EBF2EC;
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
-.cv-container {
-  background: white;
-  width: 800px;
-  max-width: 90%;
-  min-width: 600px;
-  padding: 30px 40px;
-  margin: 20px auto;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+.cv-page {
+  display: grid;
+  grid-template-columns: 400px 2fr;
+  gap: 40px;
+  padding: 20px;
+  align-items: stretch;  
+}
+.form-block {
+  background-color: #2b2d42;;
+  padding: 20px;
   border-radius: 6px;
-  box-sizing: border-box;
-  overflow-x: hidden;
+  margin-bottom: 20px;        
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
-.cv-container.full-width {
-  grid-column: 1 / -1;
+
+.cv-left {
+  padding: 20px;
+  border-radius: 10px;
+
+  
 }
+
+.cv-right {
+  padding: 30px;
+  border-radius: 6px;
+  font-family: "Times New Roman", serif;
+
+}
+
+@media screen and (max-width: 900px) {
+  .cv-page {
+    grid-template-columns: 1fr; 
+  }
+
+  .cv-left, .cv-right {
+    max-width: 100%;
+  }
+}
+
 
 h1 {
   font-size: 1.8em;
@@ -34,29 +58,35 @@ h1 {
 h2 {
   font-size: 1.1em;
   text-transform: uppercase;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid black;
   padding-bottom: 4px;
   margin: 15px 0 8px;
-  color: #333;
+  color: #fff;
 }
 
-label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 2px;
-}
 
-input {
+div > label > input {
   width: 100%;
   padding: 6px 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: 2px solid #fff;
+  border-radius: 10px;
   font-family: inherit;
   font-size: 0.92em;
+  box-sizing: border-box;
 }
 
+div > label {
+  display: inline-block;
+  width: 90%;    
+  margin-bottom: 15px;
+  vertical-align: top;
+  color:#fff;
+}
+
+
+
 button {
-  background-color: #0077cc;
+  background-color: #000000;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -68,40 +98,7 @@ button {
 }
 
 button:hover {
-  background-color: #005fa3;
-}
-
-.submitted-cv {
-  grid-column: 1 / -1;
-  margin-top: 25px;
-  padding-top: 20px;
-  border-top: 2px solid #0077cc;
-  display: block;
-  width: 100%;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.submitted-cv h2,
-.submitted-cv p {
-  margin: 2px 0;
-  line-height: 1.4;
-  font-size: 0.92em;
-}
-
-.contact-info {
-  grid-column: 1 / -1;
-  text-align: center;
-  font-size: 0.9em;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-p, li {
-  margin: 2px 0;
-  font-size: 0.92em;
-  line-height: 1.4;
+  background-color: #fca311;
 }
 
 @media print {
@@ -115,6 +112,88 @@ p, li {
     width: 100%;
   }
   button, input, textarea {
+    display: none;
+  }
+}
+
+.resume-container {
+  background: #fff;
+  width: 800px;
+  padding: 40px 50px;
+  margin: 40px auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-family: "Times New Roman", serif;
+  color: #111;
+}
+
+.resume-name {
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+
+.resume-contact {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.resume-section-title {
+  font-size: 17px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 3px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.resume-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.resume-right {
+  text-align: right;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #333;
+}
+
+.resume-bullets {
+  margin-top: 8px;
+  margin-left: 18px;
+  font-size: 14px;
+}
+
+.resume-bullets li {
+  margin-bottom: 2px;
+}
+
+
+textarea {
+  width: 100%;              
+  padding: 6px 8px;         
+  border: 1px solid #ccc;   
+  border-radius: 3px;     
+  font-family: inherit;    
+  font-size: 0.92em;        
+  box-sizing: border-box;   
+  resize: vertical;        
+  min-height: 60px;         
+  margin-bottom: 10px;      
+}
+
+.download-wrapper{
+  display: flex;
+  justify-content: flex-end;
+}
+@media print {
+  .download-wrapper {
     display: none;
   }
 }

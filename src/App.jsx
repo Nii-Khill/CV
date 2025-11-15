@@ -3,21 +3,33 @@ import './App.css'
 import General from './General/General'
 import Education from './Education/Education'
 import Practical from './Practical/Practical'
-
+import { downloadPDF } from './pdf.js'
 const App = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [schoolName, setSchoolName] = useState("")
-  const [studyTitle, setStudyTitle] = useState("")
-  const [dateOfStudy, setDateOfStudy] = useState('')
-  const [companyName, setCompanyName] = useState("")
-  const [positionTitle, setPositionTitle] = useState("")
-  const [responsibilities, setResponsibilities] = useState("")
-  const [dateFromToEnd, setDateFromToEnd] = useState('')
+  const [add, setAdd] = useState(true)
+  const [eduOpen, setEduOpen] = useState(true);
+
+
+  const [education, setEducation] = useState([{
+    schoolName: "",
+    studyTitle: "",
+    dateOfStudy: ""
+  }])
+
+
+  const [experiences, setExperiences] = useState([{
+    companyName: "",
+    positionTitle: "",
+    responsibilities: "",
+    dateFromToEnd: ""
+  }])
 
   const [isEditing, setIsEditing] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+
+
 
 
   function handleSubmitForm(e) {
@@ -26,21 +38,40 @@ const App = () => {
     if (
       !name.trim() ||
       !email.trim() ||
-      !phone.trim() ||
-      !schoolName.trim() ||
-      !studyTitle.trim() ||
-      !dateOfStudy.trim() ||
-      !companyName.trim() ||
-      !positionTitle.trim() ||
-      !responsibilities.trim() ||
-      !dateFromToEnd.trim()
+      !phone.trim()
+
     ) {
       alert("Please fill out all fields before submitting!");
       return;
     }
-    setSubmitted(true)
-    setIsEditing(false)
+
+    const isExperienceValid = experiences.every(exp =>
+      exp.companyName.trim() &&
+      exp.positionTitle.trim() &&
+      exp.responsibilities.trim() &&
+      exp.dateFromToEnd.trim()
+    );
+
+    if (!isExperienceValid) {
+      alert("Please fill out all fields in Practical Experience before submitting!");
+      return;
+    }
+
+    const isEducationDetail = education.every(edu =>
+      edu.schoolName.trim() &&
+      edu.studyTitle.trim() &&
+      edu.dateOfStudy.trim()
+    );
+
+    if (!isEducationDetail) {
+      alert("Please fill out all fields in Educational Experience before submitting!");
+      return;
+    }
+
+    setSubmitted(true);
+    setIsEditing(false);
   }
+
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -48,82 +79,115 @@ const App = () => {
 
   }
 
+  const handleToggle = () => {
+    setAdd(!add)
+  }
 
   return (
+    <div className="cv-page">
 
-    <>
-      <General
-        name={name} setName={setName}
-        email={email} setEmail={setEmail}
-        phone={phone} setPhone={setPhone}
-      />
-      <Education
-        schoolName={schoolName} setSchoolName={setSchoolName}
-        studyTitle={studyTitle} setStudyTitle={setStudyTitle}
-        dateOfStudy={dateOfStudy} setDateOfStudy={setDateOfStudy}
-      />
-
-      <Practical
-        companyName={companyName} setCompanyName={setCompanyName}
-        positionTitle={positionTitle} setPositionTitle={setPositionTitle}
-        responsibilities={responsibilities} setResponsibilities={setResponsibilities}
-        dateFromToEnd={dateFromToEnd} setDateFromToEnd={setDateFromToEnd}
-      />
-
-
-
-
-
-      {isEditing ? (
-        <form onSubmit={handleSubmitForm}>
-
-          <button type='submit'>Submit</button>
-        </form>
-      ) : (
-        <div>
-          <button onClick={handleEdit}>Edit</button>
+      {/* LEFT SIDE: Form */}
+      <div className="cv-left">
+        <div className="form-block">
+          <General
+            name={name} setName={setName}
+            email={email} setEmail={setEmail}
+            phone={phone} setPhone={setPhone}
+          />
         </div>
-      )}
 
-      {submitted && (
-        <div className="cv-container">
-          <h2>Submitted CV</h2>
+        <div className="form-block">
+          <Education
+            education={education} setEducation={setEducation}
+            add={eduOpen}
+            handleToggle={() => setEduOpen(!eduOpen)}
+          />
+        </div>
 
-          <h3>General Information</h3>
-          <p><strong>Name:</strong> {name}</p>
-          <p><strong>Email:</strong> {email}</p>
-          <p><strong>Phone:</strong> {phone}</p>
+        <div className="form-block">
+          <Practical
+            experiences={experiences}
+            setExperiences={setExperiences}
+            handleToggle={handleToggle}
+            add={add}
+          />
+        </div>
 
-          <h3>Education</h3>
-          <p><strong>School Name:</strong> {schoolName}</p>
-          <p><strong>Study Title:</strong> {studyTitle}</p>
-          <p><strong>Date of Study:</strong> {dateOfStudy}</p>
-
-          <h3>Practical Experience</h3>
-          <p><strong>Company Name:</strong> {companyName}</p>
-          <p><strong>Position Title:</strong> {positionTitle}</p>
-          <p><strong>Responsibilities:</strong> {responsibilities}</p>
-          <p><>Duration:</> {dateFromToEnd}</p>
-
-          <div class="contact-info">
-            <span>📧 {email}</span> |
-            <span>📞 {phone}</span> |
-            <span>🌐 linkedin.com/in/{name}</span>
+        {isEditing ? (
+          <form onSubmit={handleSubmitForm}>
+            <button type='submit'>Submit</button>
+          </form>
+        ) : (
+          <div>
+            <button onClick={handleEdit}>Edit</button>
           </div>
+        )}
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="cv-right">
+        {submitted && (<div className="download-wrapper">
+          <button className='download-btn' onClick={downloadPDF}>Download CV</button>
+
+        </div>)}
+        {submitted && (
+          <div className="resume-container">
+
+            {/* NAME */}
+            <h1 className="resume-name">{name}</h1>
+
+            {/* CONTACT LINE */}
+            <div className="resume-contact">
+              <span>{email}</span> •
+              <span>{phone}</span> •
+              <span>linkedin.com/in/{name.replace(/\s+/g, '').toLowerCase()}</span>
+            </div>
 
 
-        </div>
+            {/* EDUCATION SECTION */}
+            <h2 className="resume-section-title">Education</h2>
+            {education.map((edu, i) => (
+              <div className="resume-row" key={i}>
+                <div>
+                  <strong>{edu.schoolName}</strong><br />
+                  <em>{edu.studyTitle}</em>
+                </div>
+                <div className="resume-right">{edu.dateOfStudy}</div>
+              </div>
+            ))}
+
+            {/* EXPERIENCE SECTION */}
+            <h2 className="resume-section-title">Experience</h2>
+            {experiences.map((exp, i) => (
+              <div className="resume-row" key={i}>
+                <div>
+                  <strong>{exp.companyName}</strong><br />
+                  <em>{exp.positionTitle}</em>
+                  <ul className="resume-bullets">
+                    {exp.responsibilities
+                      .split('\n')
+                      .filter(resp => resp.trim() !== '')
+                      .map((resp, idx) => (
+                        <li key={idx}>{resp.trim()}</li>
+                      ))
+                    }
+                  </ul>
+                </div>
+                <div className="resume-right">{exp.dateFromToEnd}</div>
 
 
+              </div>
 
 
+            ))}
 
+          </div>
+        )}
+      </div>
 
-      )}
-
-
-    </>
+    </div>
   )
+
 }
 
 export default App

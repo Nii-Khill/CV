@@ -8,9 +8,9 @@ const General = ({ name, setName, email, setEmail, phone, setPhone }) => {
     
   return (
         <div className='general-info-table'>
-        <h1 className='general-info-table-heading'>
+        <h2 className='general-info-table-heading'>
             General Information
-        </h1>
+        </h2>
 
         <div className='general-info-table-details'>
             <label>

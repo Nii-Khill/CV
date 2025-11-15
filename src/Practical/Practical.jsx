@@ -1,9 +1,30 @@
 import React, { useState } from 'react'
 
-const Practical = ({companyName, setCompanyName, positionTitle, setPositionTitle, responsibilities, setResponsibilities, dateFromToEnd, setDateFromToEnd}) => {
+const Practical = ({ experiences, setExperiences, handleToggle, add}) => {
 
 
+    const handleExperience = (i, key, value) => {
+        const newExperiences = [...experiences]
+        newExperiences[i][key] = value;
+        setExperiences(newExperiences)
+    }
 
+    const handleDelete = (indexToDelete) => {
+        setExperiences(prev => prev.filter((_, index) => index !== indexToDelete));
+    };
+
+
+    const handleChange = () => {
+        setExperiences([...experiences,
+        {
+            companyName: "",
+            positionTitle: "",
+            responsibilities: "",
+            dateFromToEnd: ""
+        }])
+    }
+
+  
 
 
 
@@ -15,37 +36,59 @@ const Practical = ({companyName, setCompanyName, positionTitle, setPositionTitle
                 Practical Experience
             </h2>
 
-            <div className='practical-experience-detail'>
-                <label>
-                    Company Name:
-                    <input type="text" value={companyName} onChange={(e)=>setCompanyName(e.target.value)} placeholder='Enter your company name' />
-                </label>
-                <br />
-                <br />
+            {experiences.map((exp, i) => (
+                <div className='practical-experience-detail' key={i}>
+                    <label>
+                        Company Name:
+                        <input type="text" value={exp.companyName} onChange={(e) => handleExperience(i, "companyName", e.target.value)} placeholder='Enter your company name' />
+                    </label>
+                    <br />
+                    <br />
 
-                <label>
-                    Position Title:
-                    <input type="text" value={positionTitle} onChange={(e)=>setPositionTitle(e.target.value)}  placeholder='Enter your position title' />
-                </label>
-                <br />
-                <br />
+                    <label>
+                        Position Title:
+                        <input type="text" value={exp.positionTitle} onChange={(e) => handleExperience(i, "positionTitle", e.target.value)} placeholder='Enter your position title' />
+                    </label>
+                    <br />
+                    <br />
 
-                <label>
-                    Main Responsibilities:
-                    <input type="text" value={responsibilities} onChange={(e)=>setResponsibilities(e.target.value)}  placeholder='Enter the main responsibilities ' />
-                </label>
-                <br />
-                <br />
+                    <label>
+                        Main Responsibilities:
+                        <textarea 
+                        value={exp.responsibilities}
+                        onChange={(e) => handleExperience(i, "responsibilities", e.target.value)}
+                        placeholder='Enter the main responsibilities '
+                        row={4}
+                        />
+                    </label>
+                    <br />
+                    <br />
 
-                <label>
-                    Worked From and Until :
-                    <input type="text" value={dateFromToEnd} onChange={(e)=>setDateFromToEnd(e.target.value)}  placeholder='Enter the date from and until when you worked for that company' />
-                </label>
-                <br />
-                <br />
+                    <label>
+                        Worked From and Until :
+                        <input type="text" value={exp.dateFromToEnd} 
+                        onChange={(e) => handleExperience(i, "dateFromToEnd", e.target.value)}
+                        placeholder='Enter the date from and until when you worked for that company'
+                        />
+                    </label>
+                    <br />
+                    <br />
 
 
+                    <button onClick={()=>handleDelete(i)}> Delete</button>
+                </div>
+            ))}
+
+            <div className="button-row">
+                {add ? (
+                    <button onClick={() => { handleChange(); handleToggle(); }}>Add Experience</button>
+                ) : (
+                    <button onClick={handleToggle}>Close</button>
+                )}
             </div>
+
+
+
         </div>
     )
 }
